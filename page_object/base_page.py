@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import time
+import os
 import inspect
 
 
@@ -21,8 +22,11 @@ class BasePage(object):
             chrome_options = webdriver.ChromeOptions()
             chrome_options.add_argument('--start-maximized')  # 浏览器最大化
             chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
+            prefs = {'download.default_directory': 'd:\\'}
+            chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
             # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-            driver = webdriver.Chrome(chrome_options=chrome_options)
+            chrome_driver_path = '{}\driver\chromedriver.exe'.format(os.path.abspath('..'))
+            driver = webdriver.Chrome(chrome_driver_path, options=chrome_options)
         try:
             self.driver = driver
         except Exception, e:
@@ -102,20 +106,20 @@ class BasePage(object):
         """
         self.driver.get(url)
 
-    def clear(self, element):
+    def clear(self, locator):
         """
         清除元素中的内容
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         """
-        element.clear()
+        self.get_element(locator).clear()
 
-    def type(self, element, text):
+    def type(self, locator, text):
         """
         在元素中输入内容
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         :param text: 输入的内容
         """
-        element.send_keys(text)
+        self.get_element(locator).send_keys(text)
 
     def enter(self, element):
         """
@@ -260,12 +264,15 @@ class BasePage(object):
         """
         self.driver.forward()
 
-    def page_source(self):
+    def text_on_page(self, text):
         """
         返回页面源代码
         :return: 页面源代码
         """
-        return self.driver.page_source
+        if text in self.driver.page_source:
+            return True
+        else:
+            return False
 
     def f5(self):
         """
@@ -278,7 +285,7 @@ class BasePage(object):
         截图
         :param info: 截图说明
         """
-        catalog_name = "D:\\"
+        catalog_name = "D:\\screenshot\\"
         class_object = inspect.getmembers(inspect.stack()[1][0])[-3][1]['self']  # 获得测试类的object
         classname = str(class_object).split('.')[1].split(' ')[0]  # 测试类名称
         testcase_name = inspect.stack()[1][3]  # 测试方法名称
