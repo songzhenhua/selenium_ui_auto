@@ -1,3 +1,5 @@
 test_case/__pycache__/
 test_case/.pytest_cache/
-.idea
+.idea/
+page_object/*.pyc
+test_case/*.pyc

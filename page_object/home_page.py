@@ -7,18 +7,11 @@ class HomePage(BasePage):
     def __init__(self, driver):
         self.driver = driver
 
+    # i=输入框, l=链接, im=图片, t=文字控件, d=div, lab=label
     # 新闻链接
     l_news = 'xpath,//a[@name="tj_trnews"]'
     # hao123链接
     l_hao123 = 'xpath,//a[@name="tj_trhao123"]'
-    # 地图链接
-    l_map = 'xpath,//a[@name="tj_trmap"]'
-    # 视频链接
-    l_video = 'xpath,//a[@name="tj_trvideo"]'
-    # 贴吧链接
-    l_tieba = 'xpath,//a[@name="tj_trtieba"]'
-    # 学术链接
-    l_xueshu = 'xpath,//a[@name="tj_trxueshu"]'
     # 登陆链接
     l_login = 'xpath,//a[@name="tj_login"]'
     # 设置链接
@@ -26,36 +19,28 @@ class HomePage(BasePage):
     # 更多产品链接
     l_more_product = 'xpath,//a[@name="tj_briicon"]'
     # 关键字输入框
-    i_keyword = 'xpath,//input[ @ id = "kw"]'
-
+    i_keyword = 'xpath,//input[@id="kw"]'
+    # 关键字输入框
+    b_search = 'xpath,//input[@id="su"]'
 
     def open_homepage(self):
         self.open('http://www.baidu.com/')
 
     # 点击新闻
     def click_news(self):
-        self.get_element(self.l_news).click()
+        self.wait_element(self.l_news)
+        self.click(self.l_news)
 
     # 点击hao123
     def click_hao123(self):
-        self.get_element(self.l_hao123).click()
-
-    # 点击地图
-    def click_map(self):
-        self.get_element(self.l_map).click()
-
-    # 点击视频
-    def click_video(self):
-        self.get_element(self.l_video).click()
-
-    # 点击学术
-    def click_xueshu(self):
-        self.get_element(self.l_xueshu).click()
-
-    # 点击贴吧
-    def click_tieba(self):
-        self.get_element(self.l_tieba).click()
+        self.wait_element(self.l_hao123)
+        self.click(self.l_hao123)
 
     # 输入搜索关键字
-    def input_keyword(self, keys='星空物语'):
+    def input_keyword(self, keys=u'星空物语'):
+        self.wait_element(self.i_keyword)
         self.type(self.i_keyword, keys)
+
+    # 点击搜索
+    def click_search(self):
+        self.click(self.b_search)

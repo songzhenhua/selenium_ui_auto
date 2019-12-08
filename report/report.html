@@ -235,7 +235,7 @@ function filter_table(elem) {
 }
 </script>
     <h1>report.html</h1>
-    <p>Report generated on 01-Dec-2019 at 22:45:15 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v1.22.0</p>
+    <p>Report generated on 08-Dec-2019 at 17:35:10 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v1.22.0</p>
     <h2>Environment</h2>
     <table id="environment">
       <tr>
@@ -254,8 +254,8 @@ function filter_table(elem) {
         <td>Python</td>
         <td>2.7.10</td></tr></table>
     <h2>Summary</h2>
-    <p>7 tests ran in 22.83 seconds. </p>
-    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">7 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <p>2 tests ran in 71.30 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="passed">0 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="failed">2 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
     <h2>Results</h2>
     <table id="results-table">
       <thead id="results-table-head">
@@ -266,66 +266,21 @@ function filter_table(elem) {
           <th>Links</th></tr>
         <tr hidden="true" id="not-found-message">
           <th colspan="4">No results found. Try to check the filters</th></tr></thead>
-      <tbody class="passed results-table-row">
+      <tbody class="failed results-table-row">
         <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Home.py::TestHome::test_open_homepage</td>
-          <td class="col-duration">0.69</td>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_case/test_search.py::TestSearch::test_click_result</td>
+          <td class="col-duration">3.47</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
+            <div class="log">self = &lt;test_case.test_search.TestSearch instance at 0x000000000397C288&gt;<br/><br/>    def test_click_result(self):<br/>        try:<br/>            self.home_page.open_homepage()<br/>            self.home_page.input_keyword(u'星空物语')<br/>            self.search_page.wait_element(self.search_page.l_baike)  # 等待含星空物语_百度百科的搜索结果<br/>            self.search_page.click_result()  # 点击百科<br/>            print self.search_page.driver.title<br/>            self.search_page.sleep(5)<br/>            assert self.home_page.text_on_page(u'星空物语 （电视剧《一起来看流星雨》片头曲）')<br/>            self.home_page.screenshot(u'打开搜索结果')<br/>            self.search_page.close()<br/>        except Exception, e:<br/>            self.home_page.screenshot(u'打开搜索结果失败')<br/>&gt;           raise e<br/><span class="error">E           UnicodeEncodeError: 'ascii' codec can't encode characters in position 0-20: ordinal not in range(128)</span><br/><br/>test_case\test_search.py:34: UnicodeEncodeError<br/></div></td></tr></tbody>
+      <tbody class="failed results-table-row">
         <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Home.py::TestHome::test_click_news</td>
-          <td class="col-duration">1.88</td>
+          <td class="col-result">Failed</td>
+          <td class="col-name">test_case/test_search.py::TestSearch::test_click_next_page</td>
+          <td class="col-duration">65.55</td>
           <td class="col-links"></td></tr>
         <tr>
           <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Home.py::TestHome::test_click_hao123</td>
-          <td class="col-duration">1.33</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Home.py::TestHome::test_click_map</td>
-          <td class="col-duration">3.10</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Home.py::TestHome::test_click_video</td>
-          <td class="col-duration">8.67</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Home.py::TestHome::test_click_xueshu</td>
-          <td class="col-duration">2.99</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody>
-      <tbody class="passed results-table-row">
-        <tr>
-          <td class="col-result">Passed</td>
-          <td class="col-name">test_Home.py::TestHome::test_click_tieba</td>
-          <td class="col-duration">1.81</td>
-          <td class="col-links"></td></tr>
-        <tr>
-          <td class="extra" colspan="4">
-            <div class="empty log">No log output captured.</div></td></tr></tbody></table></body></html>
+            <div class="log">self = &lt;test_case.test_search.TestSearch instance at 0x0000000003A12608&gt;<br/><br/>    def test_click_next_page(self):<br/>        try:<br/>            self.search_page.sleep(5)<br/>            self.search_page.click_next_page()<br/>            assert self.home_page.wait_element(self.search_page.b_up_page)  # 上一页出现<br/>            self.home_page.screenshot(u'搜索翻页')<br/>        except Exception, e:<br/>            self.home_page.screenshot(u'搜索翻页失败')<br/>&gt;           raise e<br/><span class="error">E           AttributeError: 'bool' object has no attribute 'click'</span><br/><br/>test_case\test_search.py:45: AttributeError<br/></div></td></tr></tbody></table></body></html>

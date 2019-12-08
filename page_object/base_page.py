@@ -25,8 +25,7 @@ class BasePage(object):
             prefs = {'download.default_directory': 'd:\\'}
             chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
             # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-            chrome_driver_path = '{}\driver\chromedriver.exe'.format(os.path.abspath('..'))
-            driver = webdriver.Chrome(chrome_driver_path, options=chrome_options)
+            driver = webdriver.Chrome('D:\\code\\python\\selenium_ui_auto\\driver\\'+'chromedriver.exe', options=chrome_options)
         try:
             self.driver = driver
         except Exception, e:
@@ -121,49 +120,54 @@ class BasePage(object):
         """
         self.get_element(locator).send_keys(text)
 
-    def enter(self, element):
+    def enter(self, locator):
         """
         在元素上按回车键
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         """
-        element.send_keys(Keys.ENTER)
+        self.get_element(locator).send_keys(Keys.ENTER)
 
-    def click(self, element):
+    def click(self, locator):
         """
         在元素上单击
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         """
-        element.click()
+        self.get_element(locator).click()
 
-    def move_to_element(self, element):
+    def move_to_element(self, locator):
         """
         鼠标指向元素
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         """
+        element = self.get_element(locator)
         ActionChains(self.driver).move_to_element(element).perform()
 
-    def double_click(self, element):
+    def double_click(self, locator):
         """
         双击元素
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         """
+        element = self.get_element(locator)
         ActionChains(self.driver).double_click(element).perform()
 
-    def drag_and_drop(self, element, target_element):
+    def drag_and_drop(self, locator, target_locator):
         """
         拖动一个元素到另一个元素位置
-        :param element: 要拖动的元素
-        :param target_element: 目标位置元素
+        :param locator: 要拖动元素的定位
+        :param target_locator: 目标位置元素的定位
         """
+        element = self.get_element(locator)
+        target_element = self.get_element(target_locator)
         ActionChains(self.driver).drag_and_drop(element, target_element).perform()
 
-    def drag_and_drop_by_offset(self, element, xoffset, yoffset):
+    def drag_and_drop_by_offset(self, locator, xoffset, yoffset):
         """
         拖动一个元素向右下移动x,y个偏移量
-        :param element: 要拖动的元素
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         :param xoffset: X offset to move to
         :param yoffset: Y offset to move to
         """
+        element = self.get_element(locator)
         ActionChains(self.driver).drag_and_drop_by_offset(element, xoffset, yoffset).perform()
 
     def click_link(self, text):
@@ -192,22 +196,22 @@ class BasePage(object):
         """
         self.driver.switch_to.alert.dismiss()
 
-    def get_attribute(self, element, attribute):
+    def get_attribute(self, locator, attribute):
         """
         返回元素某属性的值
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         :param attribute: 属性名称
         :return: 属性值
         """
-        return element.get_attribute(attribute)
+        return self.get_element(locator).get_attribute(attribute)
 
-    def get_text(self, element):
+    def get_text(self, locator):
         """
         返回元素的文本
-        :param element: 元素对象
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         :return: 元素的文本
         """
-        return element.text
+        return self.get_element(locator).text
 
     def frame_in(self, locator):
         """
@@ -252,6 +256,27 @@ class BasePage(object):
         """
         self.driver.execute_script(script)
 
+    def scroll_element(self, locator):
+        """
+        拖动滚动条至目标元素
+        :param locator: 定位方法+定位表达式组合字符串，如'css,.username'
+        """
+        script = "return arguments[0].scrollIntoView();"
+        element = self.get_element(locator)
+        self.driver.execute_script(script, element)
+
+    def scroll_top(self):
+        """
+        滚动至顶部
+        """
+        self.js("window.scrollTo(document.body.scrollHeight,0)")
+
+    def scroll_bottom(self):
+        """
+        滚动至底部
+        """
+        self.js("window.scrollTo(0,document.body.scrollHeight)")
+
     def back(self):
         """
         页面后退
@@ -282,10 +307,12 @@ class BasePage(object):
 
     def screenshot(self, info='-'):
         """
-        截图
+        截图,起名为：文件名-方法名-注释
         :param info: 截图说明
         """
-        catalog_name = "D:\\screenshot\\"
+        catalog_name = "D:\\code\\python\\selenium_ui_auto\\file\\"
+        if not os.path.exists(catalog_name):
+            os.makedirs(catalog_name)
         class_object = inspect.getmembers(inspect.stack()[1][0])[-3][1]['self']  # 获得测试类的object
         classname = str(class_object).split('.')[1].split(' ')[0]  # 测试类名称
         testcase_name = inspect.stack()[1][3]  # 测试方法名称
@@ -299,8 +326,6 @@ class BasePage(object):
         self.driver.close()
         self.driver.switch_to.window(self.driver.window_handles[0])
 
-    def sleep(self, sec):
-        time.sleep(sec)
 
 if __name__ == '__main__':
     bp = BasePage()
