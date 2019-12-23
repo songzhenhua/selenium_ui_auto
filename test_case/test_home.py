@@ -1,10 +1,16 @@
 # coding=utf-8
+# @Time  : 2019/12/22
+# @Author: 星空物语
+# @File  : config.py
+# @Description: 百度首页测试用例
+
 from page_object.home_page import HomePage
 from page_object.base_page import BasePage
 from page_object.news_page import NewsPage
 from page_object.hao123_page import Hao123Page
 from page_object.search_page import SearchPage
 import pytest
+import util.config as cf
 
 
 class TestHome():
@@ -15,11 +21,16 @@ class TestHome():
     测试函数以test_开头
     断言使用assert
     """
-    base_page = BasePage()
-    home_page = HomePage(base_page.driver)
-    news_page = NewsPage(base_page.driver)
-    hao123_page = Hao123Page(base_page.driver)
-    search_page = SearchPage(base_page.driver)
+    # base_page = BasePage()
+    # home_page = HomePage(base_page.driver)
+    # news_page = NewsPage(base_page.driver)
+    # hao123_page = Hao123Page(base_page.driver)
+    # search_page = SearchPage(base_page.driver)
+    driver = cf.get_value('driver')  # 从全局变量取driver
+    home_page = HomePage(driver)
+    news_page = NewsPage(driver)
+    hao123_page = Hao123Page(driver)
+    search_page = SearchPage(driver)
 
     # 打开百度首页
     def test_open_homepage(self):

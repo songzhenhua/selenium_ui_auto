@@ -1,4 +1,9 @@
 # coding=utf-8
+# @Time  : 2019/12/22
+# @Author: 星空物语
+# @File  : base_page.py
+# @Description: 每个PO文件的父类，二次封装selenium常用操作，提供上层操作
+
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
@@ -7,29 +12,31 @@ from selenium.webdriver.common.action_chains import ActionChains
 import time
 import os
 import inspect
+import util.config as cf
 
 
 class BasePage(object):
-    def __init__(self, browser='chrome'):
-        """
-        初始化selenium webdriver，默认为chromedriver
-        :param browser: chrome,firefox/ff
-        """
-        browser = browser.lower()
-        if browser == 'firefox' or browser == 'ff':
-            driver = webdriver.Firefox()
-        else:
-            chrome_options = webdriver.ChromeOptions()
-            chrome_options.add_argument('--start-maximized')  # 浏览器最大化
-            chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
-            prefs = {'download.default_directory': 'd:\\'}
-            chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
-            # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-            driver = webdriver.Chrome('D:\\code\\python\\selenium_ui_auto\\driver\\'+'chromedriver.exe', options=chrome_options)
-        try:
-            self.driver = driver
-        except Exception, e:
-            raise e
+    def __init__(self, driver):  # browser='chrome'
+        # """
+        # 初始化selenium webdriver，默认为chromedriver
+        # :param browser: chrome,firefox/ff
+        # """
+        # browser = browser.lower()
+        # if browser == 'firefox' or browser == 'ff':
+        #     driver = webdriver.Firefox()
+        # else:
+        #     chrome_options = webdriver.ChromeOptions()
+        #     chrome_options.add_argument('--start-maximized')  # 浏览器最大化
+        #     chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
+        #     prefs = {'download.default_directory': 'd:\\'}
+        #     chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
+        #     # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
+        #     driver = webdriver.Chrome('D:\\code\\python\\selenium_ui_auto\\driver\\'+'chromedriver.exe', options=chrome_options)
+        # try:
+        #     self.driver = driver
+        # except Exception, e:
+        #     raise e
+        self.driver = cf.get_value('driver')  # 从全局变量取driver
 
     def split_locator(self, locator):
         """
@@ -61,7 +68,7 @@ class BasePage(object):
         """
         by, value = self.split_locator(locator)
         try:
-            WebDriverWait(self.driver, sec, 1).until(lambda x: x.find_element(by=by, value=value))
+            WebDriverWait(self.driver, sec, 1).until(lambda x: x.find_element(by=by, value=value), message='element not found!!!')
             return True
         except TimeoutException:
             return False
@@ -310,7 +317,8 @@ class BasePage(object):
         截图,起名为：文件名-方法名-注释
         :param info: 截图说明
         """
-        catalog_name = "D:\\code\\python\\selenium_ui_auto\\file\\"
+        # catalog_name = "D:\\code\\python\\selenium_ui_auto\\file\\screenshot\\"
+        catalog_name = cf.get_value('screenshot_path')  # 从全局变量取截图文件夹
         if not os.path.exists(catalog_name):
             os.makedirs(catalog_name)
         class_object = inspect.getmembers(inspect.stack()[1][0])[-3][1]['self']  # 获得测试类的object

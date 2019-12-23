@@ -1,4 +1,9 @@
 # coding=utf-8
+# @Time  : 2019/12/22
+# @Author: 星空物语
+# @File  : hao123_page.py
+# @Description: hao123页面
+
 from page_object.base_page import BasePage
 
 

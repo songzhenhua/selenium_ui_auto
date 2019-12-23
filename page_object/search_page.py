@@ -1,4 +1,9 @@
 # coding=utf-8
+# @Time  : 2019/12/22
+# @Author: 星空物语
+# @File  : search_page.py
+# @Description: 百度搜索页
+
 from page_object.base_page import BasePage
 
 
