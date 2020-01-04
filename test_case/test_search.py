@@ -5,10 +5,8 @@
 # @Description: 百度搜索页测试用例
 
 from page_object.home_page import HomePage
-from page_object.base_page import BasePage
 from page_object.search_page import SearchPage
 import pytest
-import time
 import util.config as cf
 
 
@@ -20,9 +18,6 @@ class TestSearch():
     测试函数以test_开头
     断言使用assert
     """
-    # base_page = BasePage()
-    # home_page = HomePage(base_page.driver)
-    # search_page = SearchPage(base_page.driver)
     driver = cf.get_value('driver')  # 从全局变量取driver
     home_page = HomePage(driver)
     search_page = SearchPage(driver)
@@ -32,10 +27,8 @@ class TestSearch():
         try:
             self.home_page.open_homepage()
             self.home_page.input_keyword(u'星空物语')  # 输入关键字
-            self.search_page.wait_element(self.search_page.l_baike)  # 等待含星空物语_百度百科的搜索结果
             self.search_page.click_result()  # 点击百科
-            time.sleep(3)
-            assert self.home_page.text_on_page(u'电视剧《一起来看流星雨》片头曲')  # 验证页面打开
+            assert self.home_page.is_text_on_page(u'电视剧《一起来看流星雨》片头曲')  # 验证页面打开
             self.home_page.screenshot(u'打开搜索结果')
             self.search_page.close()  # 关闭百科页面
         except Exception, e:

@@ -4,38 +4,17 @@
 # @File  : base_page.py
 # @Description: 每个PO文件的父类，二次封装selenium常用操作，提供上层操作
 
-from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-import time
 import os
 import inspect
 import util.config as cf
 
 
 class BasePage(object):
-    def __init__(self, driver):  # browser='chrome'
-        # """
-        # 初始化selenium webdriver，默认为chromedriver
-        # :param browser: chrome,firefox/ff
-        # """
-        # browser = browser.lower()
-        # if browser == 'firefox' or browser == 'ff':
-        #     driver = webdriver.Firefox()
-        # else:
-        #     chrome_options = webdriver.ChromeOptions()
-        #     chrome_options.add_argument('--start-maximized')  # 浏览器最大化
-        #     chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
-        #     prefs = {'download.default_directory': 'd:\\'}
-        #     chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
-        #     # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-        #     driver = webdriver.Chrome('D:\\code\\python\\selenium_ui_auto\\driver\\'+'chromedriver.exe', options=chrome_options)
-        # try:
-        #     self.driver = driver
-        # except Exception, e:
-        #     raise e
+    def __init__(self):
         self.driver = cf.get_value('driver')  # 从全局变量取driver
 
     def split_locator(self, locator):
@@ -68,7 +47,8 @@ class BasePage(object):
         """
         by, value = self.split_locator(locator)
         try:
-            WebDriverWait(self.driver, sec, 1).until(lambda x: x.find_element(by=by, value=value), message='element not found!!!')
+            WebDriverWait(self.driver, sec, 1).until(lambda x: x.find_element(by=by, value=value),
+                                                     message='element not found!!!')
             return True
         except TimeoutException:
             return False
@@ -141,13 +121,13 @@ class BasePage(object):
         """
         self.get_element(locator).click()
 
-    def move_to_element(self, locator):
+    def right_click(self, locator):
         """
-        鼠标指向元素
+        鼠标右击元素
         :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         """
         element = self.get_element(locator)
-        ActionChains(self.driver).move_to_element(element).perform()
+        ActionChains(self.driver).context_click(element).perform()
 
     def double_click(self, locator):
         """
@@ -156,6 +136,14 @@ class BasePage(object):
         """
         element = self.get_element(locator)
         ActionChains(self.driver).double_click(element).perform()
+
+    def move_to_element(self, locator):
+        """
+        鼠标指向元素
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
+        """
+        element = self.get_element(locator)
+        ActionChains(self.driver).move_to_element(element).perform()
 
     def drag_and_drop(self, locator, target_locator):
         """
@@ -182,7 +170,7 @@ class BasePage(object):
         按部分链接文字查找并点击链接
         :param text: 链接的部分文字
         """
-        self.get_element('plink,'+text).click()
+        self.get_element('plink,' + text).click()
 
     def alert_text(self):
         """
@@ -212,7 +200,7 @@ class BasePage(object):
         """
         return self.get_element(locator).get_attribute(attribute)
 
-    def get_text(self, locator):
+    def get_ele_text(self, locator):
         """
         返回元素的文本
         :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
@@ -234,7 +222,7 @@ class BasePage(object):
         """
         self.driver.switch_to.default_content()
 
-    def open_new_window(self, locator):
+    def open_new_window_by_locator(self, locator):
         """
         点击元素打开新窗口，并将句柄切换到新窗口
         :param locator: 定位方法+定位表达式组合字符串，如'css,.username'
@@ -296,7 +284,7 @@ class BasePage(object):
         """
         self.driver.forward()
 
-    def text_on_page(self, text):
+    def is_text_on_page(self, text):
         """
         返回页面源代码
         :return: 页面源代码
@@ -317,13 +305,12 @@ class BasePage(object):
         截图,起名为：文件名-方法名-注释
         :param info: 截图说明
         """
-        # catalog_name = "D:\\code\\python\\selenium_ui_auto\\file\\screenshot\\"
-        catalog_name = cf.get_value('screenshot_path')  # 从全局变量取截图文件夹
+        catalog_name = cf.get_value('screenshot_path')  # 从全局变量取截图文件夹位置
         if not os.path.exists(catalog_name):
             os.makedirs(catalog_name)
         class_object = inspect.getmembers(inspect.stack()[1][0])[-3][1]['self']  # 获得测试类的object
-        classname = str(class_object).split('.')[1].split(' ')[0]  # 测试类名称
-        testcase_name = inspect.stack()[1][3]  # 测试方法名称
+        classname = str(class_object).split('.')[1].split(' ')[0]  # 获得测试类名称
+        testcase_name = inspect.stack()[1][3]  # 获得测试方法名称
         filepath = catalog_name + classname + "-" + testcase_name + info + ".png"
         self.driver.get_screenshot_as_file(filepath)
 
@@ -337,5 +324,4 @@ class BasePage(object):
 
 if __name__ == '__main__':
     bp = BasePage()
-    # bp.sleep(5)
     bp.open('http://www.baidu.com')

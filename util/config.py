@@ -23,6 +23,8 @@ def init():
     _global_dict['driver'] = driver
     _global_dict['screenshot_path'] = "D:\\code\\python\\selenium_ui_auto\\file\\screenshot\\"  # 存放正常截图文件夹
     _global_dict['errorshot_path'] = "D:\\code\\python\\selenium_ui_auto\\file\\errorshot\\"  # 存放报错时截图文件夹
+    _global_dict['download_path'] = "D:\\code\\python\\selenium_ui_auto\\file\\download\\"  # 下载文件夹
+    _global_dict['upload_path'] = "D:\\code\\python\\selenium_ui_auto\\file\\upload\\"  # 上传文件夹
 
 
 def set_value(name, value):

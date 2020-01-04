@@ -13,14 +13,25 @@ from selenium import webdriver
 
 
 # def setup_module():
+# """
+# 初始化selenium webdriver，默认为chromedriver
+# :param browser: chrome,firefox/ff
+# """
+# browser = browser.lower()
+# if browser == 'firefox' or browser == 'ff':
+#     driver = webdriver.Firefox()
+# else:
 #     chrome_options = webdriver.ChromeOptions()
 #     chrome_options.add_argument('--start-maximized')  # 浏览器最大化
 #     chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
 #     prefs = {'download.default_directory': 'd:\\'}
 #     chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
 #     # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-#     global driver
 #     driver = webdriver.Chrome('D:\\code\\python\\selenium_ui_auto\\driver\\'+'chromedriver.exe', options=chrome_options)
+# try:
+#     self.driver = driver
+# except Exception, e:
+#     raise e
 #
 #
 # def teardown_module():

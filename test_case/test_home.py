@@ -5,7 +5,6 @@
 # @Description: 百度首页测试用例
 
 from page_object.home_page import HomePage
-from page_object.base_page import BasePage
 from page_object.news_page import NewsPage
 from page_object.hao123_page import Hao123Page
 from page_object.search_page import SearchPage
@@ -21,11 +20,6 @@ class TestHome():
     测试函数以test_开头
     断言使用assert
     """
-    # base_page = BasePage()
-    # home_page = HomePage(base_page.driver)
-    # news_page = NewsPage(base_page.driver)
-    # hao123_page = Hao123Page(base_page.driver)
-    # search_page = SearchPage(base_page.driver)
     driver = cf.get_value('driver')  # 从全局变量取driver
     home_page = HomePage(driver)
     news_page = NewsPage(driver)
@@ -48,7 +42,7 @@ class TestHome():
             self.home_page.open_homepage()
             self.home_page.input_keyword(u'星空物语')  # 输入关键字
             self.search_page.wait_element(self.search_page.l_baike)  # 等待含星空物语_百度百科的搜索结果
-            assert self.home_page.text_on_page(u'星空物语_百度百科')  # 输入关键字自动跳搜索结果页，第一项是百科
+            assert self.home_page.is_text_on_page(u'星空物语_百度百科')  # 输入关键字自动跳搜索结果页，第一项是百科
             self.home_page.screenshot(u'输入关键字跳转')
         except Exception, e:
             self.home_page.screenshot(u'输入关键字跳转失败')
