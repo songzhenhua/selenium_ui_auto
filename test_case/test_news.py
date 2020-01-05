@@ -6,8 +6,7 @@
 
 from page_object.news_page import NewsPage
 import pytest
-import util.config as cf
-import time
+import config.config as cf
 
 
 class TestSearch():
@@ -21,8 +20,8 @@ class TestSearch():
     driver = cf.get_value('driver')  # 从全局变量取driver
     news_page = NewsPage(driver)
 
-    # 显示二维码
     def test_show_QRcode(self):
+        """新闻页-显示二维码"""
         try:
             self.news_page.open_newspage()
             self.news_page.move_QRcode()
@@ -32,8 +31,8 @@ class TestSearch():
             self.news_page.screenshot(u'显示二维码失败')
             raise e
 
-    # 点击轮播图
     def test_click_carousel(self):
+        """新闻页-点击轮播图"""
         try:
             current_page_num = len(self.driver.window_handles)
             self.news_page.click_carousel()  # 点击轮播图
@@ -43,8 +42,8 @@ class TestSearch():
             self.news_page.screenshot(u'点击轮播图失败')
             raise e
 
-    # 搜索新闻
     def test_search_news(self):
+        """新闻页-搜索新闻"""
         try:
             self.news_page.open_newspage()
             self.news_page.search(u'涨工资')  # 搜索涨工资

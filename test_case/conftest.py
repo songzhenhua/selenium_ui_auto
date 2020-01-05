@@ -9,45 +9,47 @@
 #               5.所有同目录测试文件运行前都会执行conftest.py文件
 
 import pytest
-from selenium import webdriver
+from py._xmlgen import html
+import config.config as cf
 
 
-# def setup_module():
-# """
-# 初始化selenium webdriver，默认为chromedriver
-# :param browser: chrome,firefox/ff
-# """
-# browser = browser.lower()
-# if browser == 'firefox' or browser == 'ff':
-#     driver = webdriver.Firefox()
-# else:
-#     chrome_options = webdriver.ChromeOptions()
-#     chrome_options.add_argument('--start-maximized')  # 浏览器最大化
-#     chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
-#     prefs = {'download.default_directory': 'd:\\'}
-#     chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
-#     # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-#     driver = webdriver.Chrome('D:\\code\\python\\selenium_ui_auto\\driver\\'+'chromedriver.exe', options=chrome_options)
-# try:
-#     self.driver = driver
-# except Exception, e:
-#     raise e
-#
-#
-# def teardown_module():
-#     driver.quit()
-# driver = None
-#
-#
-# @pytest.fixture(scope='session')
-# def driver():
-#     chrome_options = webdriver.ChromeOptions()
-#     chrome_options.add_argument('--start-maximized')  # 浏览器最大化
-#     chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
-#     prefs = {'download.default_directory': 'd:\\'}
-#     chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
-#     # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-#     global driver
-#     driver = webdriver.Chrome('D:\\code\\python\\selenium_ui_auto\\driver\\'+'chromedriver.exe', options=chrome_options)
-#     yield driver
-#     driver.quit()
+@pytest.mark.hookwrapper
+def pytest_runtest_makereport(item):
+    """当测试失败的时候，自动截图，展示到html报告中"""
+    pytest_html = item.config.pluginmanager.getplugin('html')
+    outcome = yield
+    report = outcome.get_result()
+    extra = getattr(report, 'extra', [])
+
+    if report.when == 'call' or report.when == "setup":
+        xfail = hasattr(report, 'wasxfail')
+        if (report.skipped and xfail) or (report.failed and not xfail):
+            file_name = report.nodeid.replace("::", "_") + ".png"
+            driver = cf.get_value('driver')  # 从全局变量取driver
+            screen_img = driver.get_screenshot_as_base64()
+            if file_name:
+                html = '<div><img src="data:image/png;base64,%s" alt="screenshot" style="width:600px;height:300px;" ' \
+                       'onclick="window.open(this.src)" align="right"/></div>' % screen_img
+                extra.append(pytest_html.extras.html(html))
+        report.extra = extra
+        report.description = str(item.function.__doc__).decode('utf-8')  # 不解码转成Unicode，生成HTML会报错
+        # report.nodeid = report.nodeid.encode("utf-8").decode("unicode_escape")
+
+
+@pytest.mark.optionalhook
+def pytest_html_results_table_header(cells):
+    cells.insert(1, html.th('Description'))
+    cells.pop()  # 删除报告最后一列links
+
+
+@pytest.mark.optionalhook
+def pytest_html_results_table_row(report, cells):
+    cells.insert(1, html.td(report.description))
+    cells.pop()  # 删除报告最后一列links
+
+
+@pytest.fixture(scope='function')
+def log():
+    print u'\n--------------------用例开始--------------------'
+    yield
+    print u'\n--------------------用例结束--------------------'

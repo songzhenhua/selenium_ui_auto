@@ -7,7 +7,7 @@
 from page_object.home_page import HomePage
 from page_object.search_page import SearchPage
 import pytest
-import util.config as cf
+import config.config as cf
 
 
 class TestSearch():
@@ -22,8 +22,8 @@ class TestSearch():
     home_page = HomePage(driver)
     search_page = SearchPage(driver)
 
-    # 输入搜索关键字，显示PDF的结果
     def test_click_result(self):
+        """搜索页-点击首个搜索结果"""
         try:
             self.home_page.open_homepage()
             self.home_page.input_keyword(u'星空物语')  # 输入关键字
@@ -35,8 +35,8 @@ class TestSearch():
             self.home_page.screenshot(u'打开搜索结果失败')
             raise e
 
-    # 搜索翻页
     def test_click_next_page(self):
+        """搜索页-搜索翻页"""
         try:
             self.search_page.click_next_page()  # 点下一页
             assert self.home_page.wait_element(self.search_page.b_up_page)  # 上一页出现

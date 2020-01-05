@@ -5,7 +5,7 @@
 # @Description: 初始化，运行测试，测试收尾
 
 import pytest
-import util.config as cf
+import config.config as cf
 
 
 def main():

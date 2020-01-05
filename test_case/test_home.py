@@ -3,13 +3,15 @@
 # @Author: 星空物语
 # @File  : config.py
 # @Description: 百度首页测试用例
-
+# import sys
+# reload(sys)
+# sys.setdefaultencoding('utf8')
 from page_object.home_page import HomePage
 from page_object.news_page import NewsPage
 from page_object.hao123_page import Hao123Page
 from page_object.search_page import SearchPage
 import pytest
-import util.config as cf
+import config.config as cf
 
 
 class TestHome():
@@ -26,8 +28,8 @@ class TestHome():
     hao123_page = Hao123Page(driver)
     search_page = SearchPage(driver)
 
-    # 打开百度首页
-    def test_open_homepage(self):
+    def test_open_homepage(self, log):
+        """首页-打开百度首页"""
         try:
             self.home_page.open_homepage()
             assert self.home_page.wait_element(self.home_page.l_more_product)  # 是否有‘更多产品’element
@@ -36,8 +38,8 @@ class TestHome():
             self.home_page.screenshot(u'打开百度首页失败')
             raise e
 
-    # 输入搜索关键字，自动跳转
-    def test_input_keyword(self):
+    def test_input_keyword(self, log):
+        """首页-输入搜索关键字，自动跳转"""
         try:
             self.home_page.open_homepage()
             self.home_page.input_keyword(u'星空物语')  # 输入关键字
@@ -48,8 +50,8 @@ class TestHome():
             self.home_page.screenshot(u'输入关键字跳转失败')
             raise e
 
-    # 打开新闻
-    def test_click_news(self):
+    def test_click_news(self, log):
+        """首页-打开新闻"""
         try:
             self.home_page.open_homepage()
             self.home_page.click_news()  # 点击新闻
@@ -59,8 +61,8 @@ class TestHome():
             self.home_page.screenshot(u'打开新闻失败')
             raise e
 
-    # 打开hao123
     def test_click_hao123(self):
+        """首页-打开hao123"""
         try:
             self.home_page.open_homepage()
             self.home_page.click_hao123()  # 点击hao123

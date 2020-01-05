@@ -10,7 +10,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 import os
 import inspect
-import util.config as cf
+import config.config as cf
 
 
 class BasePage(object):
@@ -294,7 +294,7 @@ class BasePage(object):
         else:
             return False
 
-    def f5(self):
+    def refresh(self):
         """
         刷新页面
         """
