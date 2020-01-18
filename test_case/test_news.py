@@ -3,7 +3,9 @@
 # @Author: zhenhua.song
 # @File  : test_news.py
 # @Description: 百度新闻页测试用例
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 from page_object.news_page import NewsPage
 import pytest
 import config.config as cf

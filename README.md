@@ -7,6 +7,7 @@
 - 采用PO设计思想，一个页面一个Page.py，并在其中定义元素和操作方法；在TestCase中直接调用页面中封装好的操作方法操作页面。  
 - 一次测试只启动一次浏览器，节约时间提高效率(适合公司业务的才是最好的)。  
 - 增强pytest-html报告内容，加入失败截图、用例描述列、运行日志。
+- 支持命令行参数。
 
 ### 目录结构：  
 - config  
@@ -39,11 +40,18 @@
 - id定位：b_search = 'id,su'  # 搜索按钮
 - 其他定位方法同上，不再一一举例
 
-在代码中使用上面字义的元素：
+在代码中使用上面定义的元素：
 > self.type(self.i_keyword, "学好selenium") # 使用封装过的sendkeys方法输入搜索关键字，详见base_page.py  
 > self.click(self.b_search) # 使用封装过的click方法点击搜索按钮
 
-
+ ### 命令行参数：  
+ Demo只添加了一个环境参数-e, 可设置测试环境preview，线上环境product，如要在线上运行测试，启动脚本输入：
+ > python run.py -e product  
+ 
+ 可自行根据实际需要添加更多参数，并在run.py中的get_args()中进行修改。
+ 
 ----------------------------------------------------------------------------
-实际报告如图，分别展现了一个执行错误Case的报错信息+截图，一个执行通过Case的运行日志。
-![image](https://github.com/songzhenhua/selenium_ui_auto/blob/master/readme_report.jpg)
+实际报告如图，分别展现了一个执行失败Case的报错信息+截图，一个执行通过Case的运行日志。
+readme_report.png
+
+![readme_report.png](https://github.com/songzhenhua/selenium_ui_auto/blob/master/readme_report.png)

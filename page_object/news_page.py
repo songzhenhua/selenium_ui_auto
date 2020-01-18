@@ -5,6 +5,7 @@
 # @Description: 百度新闻页
 
 from page_object.base_page import BasePage
+import config.config as cf
 
 
 class NewsPage(BasePage):
@@ -26,7 +27,8 @@ class NewsPage(BasePage):
     l_result1 = 'xpath,//h3[@class="c-title"]'
 
     def open_newspage(self):
-        self.open('http://news.baidu.com/')
+        site = cf.get_value('site').replace('www', 'news')  # 从全局变量取百度地址并替换为新闻地址
+        self.open(site)
 
     # 搜索新闻
     def search(self, keys=u'北京'):

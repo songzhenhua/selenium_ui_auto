@@ -4,7 +4,6 @@
 # @File  : config.py
 # @Description: 存放全局变量，并提供存、取方法
 
-from selenium import webdriver
 import os
 
 
@@ -15,28 +14,24 @@ def init():
     # 代码根目录
     root_dir = os.getcwd()
 
+    # 存放程序所在目录
+    _global_dict['root_path'] = root_dir
     # 存放正常截图文件夹
     _global_dict['screenshot_path'] = "{}\\file\\screenshot\\".format(root_dir)
     # 下载文件夹
     _global_dict['download_path'] = "{}\\file\\download\\".format(root_dir)
     # 上传文件夹
     _global_dict['upload_path'] = "{}\\file\\upload\\".format(root_dir)
-
     # 存放日志路径
     _global_dict['log_path'] = "{}\\report\\".format(root_dir)
 
-    # 配置Chrome Driver
-    chrome_options = webdriver.ChromeOptions()
-    chrome_options.add_argument('--start-maximized')  # 浏览器最大化
-    chrome_options.add_argument('--disable-infobars')  # 不提醒chrome正在受自动化软件控制
-    prefs = {'download.default_directory': _global_dict['download_path']}
-    chrome_options.add_experimental_option('prefs', prefs)  # 设置默认下载路径
-    # chrome_options.add_argument(r'--user-data-dir=D:\ChromeUserData')  # 设置用户文件夹，可免登陆
-    print '{}\\driver\\chromedriver.exe'.format(root_dir)
-    driver = webdriver.Chrome('{}\\driver\\chromedriver.exe'.format(root_dir), options=chrome_options)
-
     # 保存driver
-    _global_dict['driver'] = driver
+    _global_dict['driver'] = None
+
+    # 设置运行环境网址主页
+    _global_dict['site'] = 'https://www.baidu.com/'
+    # 运行环境，默认preview，可设为product
+    _global_dict['environment'] = 'preview'
 
 
 def set_value(name, value):

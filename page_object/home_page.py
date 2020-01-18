@@ -6,6 +6,7 @@
 
 from page_object.base_page import BasePage
 import logging
+import config.config as cf
 
 log = logging.getLogger('szh.HomePage')
 
@@ -32,7 +33,8 @@ class HomePage(BasePage):
     b_search = 'id,su'
 
     def open_homepage(self):
-        self.open('http://www.baidu.com/')
+        site = cf.get_value('site')  # 从全局变量取百度地址
+        self.open(site)
 
     # 点击新闻
     def click_news(self):
