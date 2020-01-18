@@ -11,6 +11,9 @@
 import pytest
 from py._xmlgen import html
 import config.config as cf
+import logging
+
+log = logging.getLogger('szh.conftest')
 
 
 @pytest.mark.hookwrapper
@@ -32,7 +35,7 @@ def pytest_runtest_makereport(item):
                        'onclick="window.open(this.src)" align="right"/></div>' % screen_img
                 extra.append(pytest_html.extras.html(html))
         report.extra = extra
-        report.description = str(item.function.__doc__).decode('utf-8')  # 不解码转成Unicode，生成HTML会报错
+        report.description = str(item.function.__doc__)#.decode('utf-8', 'ignore')  # 不解码转成Unicode，生成HTML会报错
         # report.nodeid = report.nodeid.encode("utf-8").decode("unicode_escape")
 
 
@@ -48,8 +51,8 @@ def pytest_html_results_table_row(report, cells):
     cells.pop()  # 删除报告最后一列links
 
 
-@pytest.fixture(scope='function')
-def log():
-    print u'\n--------------------用例开始--------------------'
-    yield
-    print u'\n--------------------用例结束--------------------'
+# @pytest.fixture(scope='function')
+# def testcase():
+#     log.info(u'\n--------------------用例开始--------------------')
+#     yield
+#     log.info(u'\n--------------------用例结束--------------------')

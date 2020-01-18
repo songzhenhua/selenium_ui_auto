@@ -5,6 +5,9 @@
 # @Description: 百度首页
 
 from page_object.base_page import BasePage
+import logging
+
+log = logging.getLogger('szh.HomePage')
 
 
 # 百度首页
@@ -33,17 +36,14 @@ class HomePage(BasePage):
 
     # 点击新闻
     def click_news(self):
-        self.wait_element(self.l_news)
         self.click(self.l_news)
 
     # 点击hao123
     def click_hao123(self):
-        self.wait_element(self.l_hao123)
         self.click(self.l_hao123)
 
     # 输入搜索关键字
     def input_keyword(self, keys=u'星空物语'):
-        self.wait_element(self.i_keyword)
         self.type(self.i_keyword, keys)
 
     # 点击搜索

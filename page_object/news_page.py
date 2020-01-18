@@ -30,16 +30,13 @@ class NewsPage(BasePage):
 
     # 搜索新闻
     def search(self, keys=u'北京'):
-        self.wait_element(self.i_keyword)
         self.type(self.i_keyword, keys)
         self.click(self.b_search)
 
     # 点击轮播图
     def click_carousel(self):
-        self.wait_element(self.d_carousel)
         self.open_new_window_by_locator(self.d_carousel)
 
     # 指向二维码
     def move_QRcode(self):
-        self.wait_element(self.icon_QRcode)
         self.move_to_element(self.icon_QRcode)

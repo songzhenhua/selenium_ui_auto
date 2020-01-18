@@ -6,6 +6,7 @@
 
 import pytest
 import config.config as cf
+from util.log import Logger
 
 
 def main():
@@ -14,5 +15,6 @@ def main():
 
 if __name__ == '__main__':
     cf.init()  # 初始化全局变量
+    log = Logger('szh')
     main()  # 运行pytest测试集
     cf.get_value('driver').quit()  # 关闭selenium Chrome driver

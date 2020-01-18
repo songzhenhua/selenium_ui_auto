@@ -24,6 +24,9 @@ def init():
     # 上传文件夹
     _global_dict['upload_path'] = "{}\\file\\upload\\".format(root_dir)
 
+    # 存放日志路径
+    _global_dict['log_path'] = "{}\\report\\".format(root_dir)
+
     # 配置Chrome Driver
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--start-maximized')  # 浏览器最大化
