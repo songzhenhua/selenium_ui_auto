@@ -28,8 +28,8 @@ class HomePage(BasePage):
     l_more_product = 'xpath,//a[@name="tj_briicon"]'
     # 关键字输入框
     i_keyword = 'xpath,//input[@id="kw"]'
-    # 关键字输入框
-    b_search = 'xpath,//input[@id="su"]'
+    # 搜索按钮
+    b_search = 'id,su'
 
     def open_homepage(self):
         self.open('http://www.baidu.com/')

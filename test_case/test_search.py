@@ -3,7 +3,9 @@
 # @Author: 星空物语
 # @File  : config.py
 # @Description: 百度搜索页测试用例
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 from page_object.home_page import HomePage
 from page_object.search_page import SearchPage
 import pytest

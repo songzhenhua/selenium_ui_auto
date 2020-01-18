@@ -1,26 +1,49 @@
-本来想写一个基于selenium+pytest的UI自动化框架，框架基本功能完成写demo case的时候，发现业务前端编写不规范，且产品更新频繁，光是编写&调试element的xpath或css表达式就非常浪费时间。
+##基于python2+selenium3+pytest4的UI自动化框架
 
-此时发现Katalon这个工具，专业团队维护、终身免费、持续更新，因为是基于selenium开发的，所以selenium有的功能都有。可视化操作，可录制脚本，支持POM，代码能力不强也可以使用；也有代码编辑模式，高级用户可以定制功能。因为脚本编写&调试速度比用selenium写框架强多了，所以现在我已经用Katalon了，安利给大家。
+>环境：Python2.7.10， selenium3.141.0， pytest4.6.6， pytest-html1.22.0， Windows-7-6.1.7601-SP1
 
+###特点：
+- 二次封装了selenium，编写Case更加方便。  
+- 采用PO设计思想，一个页面一个Page.py，并在其中定义元素和操作方法；在TestCase中直接调用页面中封装好的操作方法操作页面。  
+- 一次测试只启动一次浏览器，节约时间提高效率(适合公司业务的才是最好的)。  
+- 增强pytest-html报告内容，加入失败截图、用例描述列、运行日志。
 
-目录结构：  
-config：配置文件  
-drive：各浏览器drive，目前代码中没用到此文件夹，我直接把Chrome的drive放到Chrome安装文件夹并加了系统变量  
-file：上传、下载、截图文件夹  
-pageObject：一个页面一个.py，存放页面对象、操作方法  
-report：报告、日志  
-testCase：用例  
-util：工具包
+###目录结构：  
+- config  
+  - config.py：存放全局变量，各种配置、driver等  
+- drive：各浏览器driver  
+- file
+  - download：下载文件夹
+  - download：截图文件夹  
+  - download：上传文件夹     
+- page_object：一个页面一个.py，存放页面对象、操作方法 
+  - base_page.py：基础页面，封装了selenium的各种操作
+  - hao123_page.py：hao123页面  
+  - home_page.py：百度首页 
+  - news_page.py：新闻首页  
+  - search_page.py：搜索结果页 
+- report：
+  - report.html：pytest-html生成的报告   
+- test_case
+  - conftest.py：pytest特有文件，在里面增加了失败截图、用例描述列
+  - test_home.py：百度首页测试用例
+  - test_news.py：新闻首页测试用例
+  - test_search.py：搜索结果页测试用例
+- util：工具包  
+  - log.py：封装了日志模块
+- run.py：做为运行入口，封装了pytest运行命令；实现所有测试用例共用一个driver；实现了运行参数化(结合Jenkins使用)  
 
+###元素定义特别用法说明：
+本框架支持selenium所有的定位方法，为了提高编写速度，改进了使用方法，定义元素时方法名和方法值为一个用逗号隔开的字符串，如：
+- xpath定位：i_keyword = 'xpath,//input[@id="kw"]'  # 关键字输入框
+- id定位：b_search = 'id,su'  # 搜索按钮
+- 其他定位方法同上，不再一一举例
 
-如果继续开发的话，TODO：  
-加入log功能  
-加入HTML报告&发送邮件功能  
-加入配置文件，区分线上/测试等各种场景  
-加入图片对比功能（好像也没什么用，现在页面到处都是动态的）
+在代码中使用上面字义的元素：
+> self.type(self.i_keyword, "学好selenium") # 使用封装过的sendkeys方法输入搜索关键字，详见base_page.py  
+> self.click(self.b_search) # 使用封装过的click方法点击搜索按钮
 
 
 ----------------------------------------------------------------------------
-pytest testProjectList.py --html=report.html	执行用例，输出html报告  
-pytest testProjectList.py --junitxml=report.xml	执行用例，输出JunitXML报告  
-在report文件夹执行pytest -s ../testCase/prdb/test_Crf.py --html=report.html
+实际报告如图，分别展现了一个执行错误Case的报错信息+截图，一个执行通过Case的运行日志。
+![image](https://github.com/songzhenhua/HudTool/blob/master/readme_report.jpg)

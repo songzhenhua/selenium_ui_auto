@@ -10,7 +10,7 @@ from util.log import Logger
 
 
 def main():
-    pytest.main(['-v', '-s', 'test_case/', '--html=report/report.html', '--self-contained-html'])
+    pytest.main(['-v', '-s', 'test_case/test_search.py', '--html=report/report.html', '--self-contained-html'])
 
 
 if __name__ == '__main__':

@@ -16,7 +16,7 @@ class SearchPage(BasePage):
     l_baike = 'xpath,//a[(. = "星空物语_百度百科")]'
 
     # 下一页
-    b_next_page = 'xpath,//a[(. = "下一页>")]'
+    b_next_page = 'link,下一页>'
 
     # 上一页
     b_up_page = 'xpath,//a[(. = "<上一页")]'

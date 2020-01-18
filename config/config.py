@@ -17,8 +17,6 @@ def init():
 
     # 存放正常截图文件夹
     _global_dict['screenshot_path'] = "{}\\file\\screenshot\\".format(root_dir)
-    # 存放报错时截图文件夹
-    _global_dict['errorshot_path'] = "{}\\file\\errorshot\\".format(root_dir)
     # 下载文件夹
     _global_dict['download_path'] = "{}\\file\\download\\".format(root_dir)
     # 上传文件夹

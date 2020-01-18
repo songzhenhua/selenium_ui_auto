@@ -69,6 +69,7 @@ class BasePage(object):
         """
         if self.wait_element(locator, sec):
             by, value = self.split_locator(locator)
+            print by, value
             try:
                 element = self.driver.find_element(by=by, value=value)
                 log.info(u'获取元素：%s' % locator)
