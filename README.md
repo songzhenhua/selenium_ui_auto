@@ -1,14 +1,14 @@
-##基于python2+selenium3+pytest4的UI自动化框架
+## 基于python2+selenium3+pytest4的UI自动化框架
 
 >环境：Python2.7.10， selenium3.141.0， pytest4.6.6， pytest-html1.22.0， Windows-7-6.1.7601-SP1
 
-###特点：
+### 特点：
 - 二次封装了selenium，编写Case更加方便。  
 - 采用PO设计思想，一个页面一个Page.py，并在其中定义元素和操作方法；在TestCase中直接调用页面中封装好的操作方法操作页面。  
 - 一次测试只启动一次浏览器，节约时间提高效率(适合公司业务的才是最好的)。  
 - 增强pytest-html报告内容，加入失败截图、用例描述列、运行日志。
 
-###目录结构：  
+### 目录结构：  
 - config  
   - config.py：存放全局变量，各种配置、driver等  
 - drive：各浏览器driver  
@@ -33,7 +33,7 @@
   - log.py：封装了日志模块
 - run.py：做为运行入口，封装了pytest运行命令；实现所有测试用例共用一个driver；实现了运行参数化(结合Jenkins使用)  
 
-###元素定义特别用法说明：
+### 元素定义特别用法说明：
 本框架支持selenium所有的定位方法，为了提高编写速度，改进了使用方法，定义元素时方法名和方法值为一个用逗号隔开的字符串，如：
 - xpath定位：i_keyword = 'xpath,//input[@id="kw"]'  # 关键字输入框
 - id定位：b_search = 'id,su'  # 搜索按钮
@@ -46,4 +46,4 @@
 
 ----------------------------------------------------------------------------
 实际报告如图，分别展现了一个执行错误Case的报错信息+截图，一个执行通过Case的运行日志。
-![image](https://github.com/songzhenhua/HudTool/blob/master/readme_report.jpg)
+![image](https://github.com/songzhenhua/selenium_ui_auto/blob/master/readme_report.jpg)
