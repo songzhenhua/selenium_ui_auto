@@ -52,6 +52,5 @@
  
 ----------------------------------------------------------------------------
 实际报告如图，分别展现了一个执行失败Case的报错信息+截图，一个执行通过Case的运行日志。
-readme_report.png
 
 ![readme_report.png](https://github.com/songzhenhua/selenium_ui_auto/blob/master/readme_report.png)

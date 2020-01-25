@@ -9,12 +9,13 @@ import config.config as cf
 from util.log import Logger
 import argparse
 from selenium import webdriver
+from util.mail import send_mail
 
 
 def get_args():
     """命令行参数解析"""
     parser = argparse.ArgumentParser(description=u'可选择参数：')
-    parser.add_argument('-e', '--environment', choices=['preview', 'product'], help=u'测试环境preview，线上环境product')
+    parser.add_argument('-e', '--environment', choices=['preview', 'product'], default='preview', help=u'测试环境preview，线上环境product')
     args = parser.parse_args()
     if args.environment in ('pre', 'preview'):
         cf.set_value('environment', 'preview')
@@ -52,3 +53,6 @@ if __name__ == '__main__':
     set_driver()  # 初始化driver
     main()  # 运行pytest测试集
     cf.get_value('driver').quit()  # 关闭selenium driver
+
+    # 先将util.mail文件send_mail()中的用户名、密码填写正确，再启用发送邮件功能！！！
+    # send_mail(['22459496@qq.com'])  # 将报告发送至邮箱

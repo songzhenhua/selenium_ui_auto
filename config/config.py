@@ -22,8 +22,8 @@ def init():
     _global_dict['download_path'] = "{}\\file\\download\\".format(root_dir)
     # 上传文件夹
     _global_dict['upload_path'] = "{}\\file\\upload\\".format(root_dir)
-    # 存放日志路径
-    _global_dict['log_path'] = "{}\\report\\".format(root_dir)
+    # 存放报告路径
+    _global_dict['report_path'] = "{}\\report\\".format(root_dir)
 
     # 保存driver
     _global_dict['driver'] = None
