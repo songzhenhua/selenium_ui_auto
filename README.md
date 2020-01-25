@@ -8,11 +8,12 @@
 - 一次测试只启动一次浏览器，节约时间提高效率(适合公司业务的才是最好的)。  
 - 增强pytest-html报告内容，加入失败截图、用例描述列、运行日志。
 - 支持命令行参数。
+- 支持邮件发送报告。
 
 ### 目录结构：  
 - config  
   - config.py：存放全局变量，各种配置、driver等  
-- drive：各浏览器driver  
+- drive：各浏览器驱动文件，如chromedriver.exe  
 - file
   - download：下载文件夹
   - download：截图文件夹  
@@ -26,13 +27,14 @@
 - report：
   - report.html：pytest-html生成的报告   
 - test_case
-  - conftest.py：pytest特有文件，在里面增加了失败截图、用例描述列
+  - conftest.py：pytest特有文件，在里面增加了报告失败截图、用例描述列
   - test_home.py：百度首页测试用例
   - test_news.py：新闻首页测试用例
   - test_search.py：搜索结果页测试用例
 - util：工具包  
   - log.py：封装了日志模块
-- run.py：做为运行入口，封装了pytest运行命令；实现所有测试用例共用一个driver；实现了运行参数化(结合Jenkins使用)  
+  - mail.py：封装了邮件模块，使用发送报告邮件功能需要先设置好相关配置，如用户名密码
+- run.py：做为运行入口，封装了pytest运行命令；实现所有测试用例共用一个driver；实现了运行参数化(结合Jenkins使用)；log配置初始化；可配置发送报告邮件。  
 
 ### 元素定义特别用法说明：
 本框架支持selenium所有的定位方法，为了提高编写速度，改进了使用方法，定义元素时方法名和方法值为一个用逗号隔开的字符串，如：
