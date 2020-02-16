@@ -35,10 +35,21 @@ def init():
 
 
 def set_value(name, value):
+    """
+    修改全局变量的值
+    :param name: 变量名
+    :param value: 变量值
+    """
     _global_dict[name] = value
 
 
 def get_value(name, def_val='no_value'):
+    """
+    获取全局变量的值
+    :param name: 变量名
+    :param def_val: 默认变量值
+    :return: 变量存在时返回其值，否则返回'no_value'
+    """
     try:
         return _global_dict[name]
     except KeyError:

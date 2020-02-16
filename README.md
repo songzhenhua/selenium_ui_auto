@@ -16,8 +16,8 @@
 - drive：各浏览器驱动文件，如chromedriver.exe  
 - file
   - download：下载文件夹
-  - download：截图文件夹  
-  - download：上传文件夹     
+  - screenshot：截图文件夹  
+  - upload：上传文件夹     
 - page_object：一个页面一个.py，存放页面对象、操作方法 
   - base_page.py：基础页面，封装了selenium的各种操作
   - hao123_page.py：hao123页面  
