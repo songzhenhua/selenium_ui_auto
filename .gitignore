@@ -5,3 +5,4 @@ test_case/.pytest_cache/
 page_object/*.pyc
 test_case/*.pyc
 util/*.pyc
+chrome_temp/

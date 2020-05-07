@@ -8,15 +8,16 @@ from selenium import webdriver
 import inspect
 import time
 import sys
-from page_object.home_page import ProjectListPage
 
-# 通过加cookies免登陆
-driver = webdriver.Chrome()
+# 通过加cookies免登陆，百度登陆2020.5.7验证通过
+chrome_driver = r"D:\code\python\selenium_ui_auto\driver\chromedriver.exe"
+driver = webdriver.Chrome(chrome_driver)
 driver.maximize_window()
 driver.get('http://www.baidu.com/')
-time.sleep(60)
-driver.add_cookie({'name': 'uid', 'value': '257646cadcf-e748-2a18-5f80a51'})
-driver.add_cookie({'name': 'session', 'value': '1bee4b6b272e772c0ecb86bc6969a3d5e2b1e22ca9d'})
+driver.add_cookie({'name': 'BAIDUID', 'value': '67F332038A56CC0A9B109728BC718D8B'})
+driver.add_cookie({'name': 'BIDUPSID', 'value': '67F332038A56CC0A9B109728BC718D8B'})
+driver.add_cookie({'name': 'H_PS_PSSID', 'value': '1423_31325_21099_31428_31341_31270_31463_30823_31163_31472'})
+driver.add_cookie({'name': 'BDUSS', 'value': 'hpRVBWSklrMHNjN3lnZGpMM25PM0JCdzZscGR3fnlyZFc3U0FnU2dnYWJCZHRlRVFBQUFBJCQAAAAAAAAAAAEAAACrMBMANTIwc3poAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJt4s16beLNefm'})
 driver.get('http://www.baidu.com/')
 
 '''

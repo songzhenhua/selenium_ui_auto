@@ -31,6 +31,8 @@
   - test_home.py：百度首页测试用例
   - test_news.py：新闻首页测试用例
   - test_search.py：搜索结果页测试用例
+  - demo1.py：通过加cookies免登陆的Demo
+  - demo2.py：在已打开的Chrome浏览器进行调试的Demo
 - util：工具包  
   - log.py：封装了日志模块
   - mail.py：封装了邮件模块，使用发送报告邮件功能需要先设置好相关配置，如用户名密码
