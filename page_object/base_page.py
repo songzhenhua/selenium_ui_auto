@@ -27,8 +27,8 @@ class BasePage(object):
         :param locator: 定位方法+定位表达式组合字符串，如'css,.username'
         :return: locator_dict[by], value:返回定位方式和定位表达式
         """
-        by = locator.split(',')[0]
-        value = locator.split(',')[1]
+        by = locator.split(',', 1)[0]
+        value = locator.split(',', 1)[1]
         locator_dict = {
             'id': 'id',
             'name': 'name',
@@ -92,6 +92,14 @@ class BasePage(object):
         except Exception, e:
             raise e
 
+    def get_url(self):
+        """
+        获取当前网址
+        :return: 网址连接
+        """
+        log.info(u'获取当前网址：%s' % self.driver.current_url)
+        return self.driver.current_url
+
     def open(self, url):
         """
         打开网址
@@ -117,6 +125,21 @@ class BasePage(object):
         self.get_element(locator).send_keys(text)
         log.info(u'向元素 %s 输入文字：%s' % (locator, text))
 
+    def type_all(self, locator, text):
+        """
+        在符合条件的所有元素中输入内容，依次循环输入text1,text2……
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
+        :param text: 输入的内容
+        """
+        allt = self.get_elements(locator)
+        i = 1
+        log.info(u'开始执行type_all，共%s个元素' % (len(allt)))
+        for ele in allt:
+            newtext = text + str(i)
+            ele.send_keys(newtext)
+            log.info(u'向第 %s 个元素输入文字：%s' % (i, newtext))
+            i += 1
+
     def enter(self, locator):
         """
         在元素上按回车键
@@ -125,13 +148,87 @@ class BasePage(object):
         self.get_element(locator).send_keys(Keys.ENTER)
         log.info(u'在元素 %s 上按回车' % locator)
 
-    def click(self, locator):
+    def click(self, locator, repeat=0):
         """
         在元素上单击
+        :param repeat: 重复次数标记，不要填写
         :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         """
-        self.get_element(locator).click()
-        log.info(u'点击元素：%s' % locator)
+        try:
+            repeat += 1
+            self.get_element(locator).click()
+            log.info(u'点击元素：%s' % locator)
+        except Exception, e:
+            log.info(u'点击元素：%s 第%s次执行失败' % (locator, repeat))
+            if repeat > 2:
+                raise e
+            self.click(locator, repeat)
+
+    def click_all(self, locator):
+        """
+        点击所有符合条件的元素
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
+        """
+        allc = self.get_elements(locator)
+        i = 0
+        log.info(u'开始执行click_all，共%s个元素' % (len(allc)))
+        for ele in allc:
+            self.sleep(0.3)
+            ele.click()
+            i += 1
+            log.info(u'点击第 %s 个元素' % i)
+
+    def double_click_all(self, locator):
+        """
+        双击所有符合条件的元素
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
+        """
+        allc = self.get_elements(locator)
+        i = 0
+        log.info(u'开始执行double_click_all，共%s个元素' % (len(allc)))
+        for ele in allc:
+            ActionChains(self.driver).double_click(ele).perform()
+            i += 1
+            log.info(u'点击第 %s 个元素' % i)
+
+    def get_element_offset(self, locator):
+        """
+        获取元素坐标
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
+        :return: x,y
+        """
+        element = self.get_element(locator)
+        loc = element.location
+        x = loc['x']
+        y = loc['y']
+        log.info(u'获取元素坐标：%s,%s' % (x, y))
+        return x, y
+
+    def get_element_offset_click(self, locator):
+        """
+        获取元素坐标并点击中间位置，适用于：元素A中套着元素B，元素B无法定位但元素A可以定位
+        :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
+        """
+        element = self.get_element(locator)
+        loc = element.location
+        x = loc['x']
+        y = loc['y']
+        size = element.size
+        width = size['width']
+        height = size['height']
+        x += width
+        y += height
+        self.click_offset(x, y)
+
+    def click_offset(self, x, y):
+        """
+        点击坐标
+        :param x: x坐标'
+        :param y: y坐标'
+
+        """
+        ActionChains(self.driver).move_by_offset(x, y).click().perform()
+        log.info(u'点击坐标%s,%s' % (x, y))
 
     def right_click(self, locator):
         """
@@ -173,7 +270,7 @@ class BasePage(object):
 
     def drag_and_drop_by_offset(self, locator, xoffset, yoffset):
         """
-        拖动一个元素向右下移动x,y个偏移量
+        拖动一个元素移动x,y个偏移量
         :param locator: 定位方法+定位表达式组合字符串，用逗号分隔，如'css,.username'
         :param xoffset: X offset to move to
         :param yoffset: Y offset to move to
@@ -182,7 +279,7 @@ class BasePage(object):
         ActionChains(self.driver).drag_and_drop_by_offset(element, xoffset, yoffset).perform()
         log.info(u'把元素 %s 拖至坐标：%s %s' % (locator, xoffset, yoffset))
 
-    def click_link(self, text):
+    def click_partial_text_link(self, text):
         """
         按部分链接文字查找并点击链接
         :param text: 链接的部分文字
@@ -243,7 +340,7 @@ class BasePage(object):
 
     def frame_out(self):
         """
-        返回主文档
+        退出frame返回默认文档
         """
         self.driver.switch_to.default_content()
         log.info(u'退出frame返回默认文档')
@@ -319,17 +416,21 @@ class BasePage(object):
         self.driver.forward()
         log.info(u'页面向前')
 
-    def is_text_on_page(self, text):
+    def wait_text(self, text, per=3, count=10):
         """
-        返回页面源代码
-        :return: 页面源代码
+        判断给定文本是否在页面上
+        :param text: 要判断的文本
+        :param per: 每次判断间断时间
+        :param count: 判断次数
+        :return: 存在返回True，不存在返回False
         """
-        if text in self.driver.page_source:
-            log.info(u'判断页面上有文本：%s' % text)
-            return True
-        else:
-            log.info(u'判断页面上没有文本：%s' % text)
-            return False
+        for i in range(count):
+            if text in self.driver.page_source:
+                log.info(u'判断页面上有文本：%s 第%s次' % (text, i+1))
+                return True
+            self.sleep(per)
+        log.info(u'判断页面上没有文本：%s 共%s次' % (text, i+1))
+        return False
 
     def refresh(self):
         """

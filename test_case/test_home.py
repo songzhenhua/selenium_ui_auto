@@ -51,7 +51,7 @@ class TestHome():
             self.home_page.open_homepage()
             self.home_page.input_keyword(u'星空物语')  # 输入关键字
             self.search_page.wait_element(self.search_page.l_baike)  # 等待含星空物语_百度百科的搜索结果
-            assert self.home_page.is_text_on_page(u'星空物语_百度百科')  # 输入关键字自动跳搜索结果页，第一项是百科
+            assert self.home_page.wait_text(u'星空物语_百度百科')  # 输入关键字自动跳搜索结果页，第一项是百科
             log.info(u'断言有‘星空物语_百度百科’文字 成功')
             self.home_page.screenshot(u'输入关键字跳转')
         except Exception, e:

@@ -30,7 +30,7 @@ class TestSearch():
             self.home_page.open_homepage()
             self.home_page.input_keyword(u'星空物语')  # 输入关键字
             self.search_page.click_result()  # 点击百科
-            assert self.home_page.is_text_on_page(u'电视剧《一起来看流星雨》片头曲')  # 验证页面打开
+            assert self.home_page.wait_text(u'电视剧《一起来看流星雨》片头曲')  # 验证页面打开
             self.home_page.screenshot(u'打开搜索结果')
             self.search_page.close()  # 关闭百科页面
         except Exception, e:

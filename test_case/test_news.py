@@ -49,7 +49,7 @@ class TestSearch():
         try:
             self.news_page.open_newspage()
             self.news_page.search(u'涨工资')  # 搜索涨工资
-            assert self.news_page.is_text_on_page(u'电视剧《一起来看流星雨》片头曲')  # 故意断言失败
+            assert self.news_page.wait_text(u'电视剧《一起来看流星雨》片头曲')  # 故意断言失败
         except Exception, e:
             self.news_page.screenshot(u'搜索新闻失败')
             raise e
